@@ -1,13 +1,10 @@
 import React from 'react'
 import { MovieCard } from '../components/MovieCard';
 import { useFetchTrending } from '../hooks/useFetchTrending'
-import { useSeleccionador } from '../hooks/useSeleccionador'
 
 export const Trending = () => {
 
   const { movies } = useFetchTrending();
-
-  const { cambio } = useSeleccionador();
 
   return (
     
