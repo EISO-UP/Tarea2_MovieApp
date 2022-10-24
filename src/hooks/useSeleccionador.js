@@ -1,47 +1,32 @@
 import "./styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getTrending } from "../helpers/getTrending";
 
 export default function App() {
   const [select, setSelect] = useState("");
 
   const optionchanged = (e) => {
     setSelect(e.target.value);
-  };
+  }; 
 
-  const questions = [
-    {
-      id: 1,
-      qst: "which country you are from",
-      options: ["select", "USA", "UK", "Australia", "India"]
-    },
-    {
-      id: 2,
-      qst: "What is your country code",
-      options: ["select", "+1", "+44", "+61", "+91"]
-    }
-  ];
+  const getSeleccion = async (time_window) => {
+    const results = await getTrending(setSelect.value, time_window);
+    setSelect(results);
+  }
+  useEffect(() => {
+    getSeleccion();
+  }, []);
+  
   return (
     <div className="App" style={{ "text-align": "left" }}>
-      {questions.map((quest) => (
-        <div>
-          {/* displaying the question */}
-          <p>
-            {" "}
-            {quest.id}. {quest.qst}
-          </p>
-          {/* showing the options */}
-          <select onChange={optionchanged}>
-            {quest.options.map((option) => (
-              <>
-                <option> {option}</option>
-              </>
-            ))}
-          </select>
-          {/* selected option showing next to the dropdown */}
-          &nbsp;&nbsp;
-          <span style={{ color: "blue" }}>{select} </span>
-        </div>
-      ))}
-    </div>
+      <label for="seleccionar">¿Qué quiere ver?</label>
+
+      <select onChange={optionchanged} name="seleccionar" id="seleccionar">
+        <option value="all">All</option>
+        <option value="movie">Peliculas</option>
+        <option value="serie">Series</option>
+      </select>
+    </div>,
+    select
   );
 }
